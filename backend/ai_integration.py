@@ -6,11 +6,11 @@ from langchain_core.prompts import PromptTemplate
 load_dotenv()
 
 llm = ChatGoogleGenerativeAI(
-    model = "gemini-1.5-flash" ,
-    api_key = os.getenv("GOOGLE_API_KEY"),
+    model = "gemini-2.5-flash" ,
+    api_key = os.getenv("GEMINI_API_KEY"),
 )
 def get_response(rulebook_text: str, user_question: str) -> str:
-    """sents the rules and questions to gemini and recieves the answers"""
+    """sends the rules and questions to gemini and receives the answers"""
     prompt = PromptTemplate.from_template(
         """
         You are a Chief Race Strategist on an F1 pit wall.
@@ -29,5 +29,5 @@ def get_response(rulebook_text: str, user_question: str) -> str:
         """
     )
     chain = prompt | llm
-    response = chain.invoke({"text": rulebook_text, "user_question": user_question})
+    response = chain.invoke({"text": rulebook_text, "question": user_question})
     return response.content

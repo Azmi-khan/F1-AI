@@ -1,9 +1,13 @@
 from fastapi import FastAPI, UploadFile, File, Form
 from fastapi.middleware.cors import CORSMiddleware
+import os
+
+# Import your custom functions
 from pdf_extractor import extract_rules
 from ai_integration import get_response
 
 app = FastAPI()
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -12,31 +16,20 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-current_rulebook_text = ""
-
-@app.get("/")
-def health_check():
-    return {"status": "F1.AI is online"}
-
 @app.post("/api/upload")
-async def upload_file(file: UploadFile = File(...)):
+async def upload_document(file: UploadFile = File(...)):
+    # 1. Read and extract the text using your fixed extractor
     content = await file.read()
-    raw_rules = extract_rules(content)
+    extracted_text = extract_rules(content)
+    with open("telemetry.txt", "w", encoding="utf-8") as f:
+        f.write(extracted_text)
+    return {"message": "Rulebook ingested and saved to hard drive. Pit wall is online."}
 
-    return{
-        "filename": file.filename,
-        "message" : "file successfully uploaded",
-        "charactor_count": len(raw_rules)
-    }
-@@app.post("/api/ask")
+@app.post("/api/ask")
 async def ask_question(question: str = Form(...)):
-    global current_rulebook_text
-
-    # Safety check: Make sure they uploaded a PDF first
-    if not current_rulebook_text:
+    if not os.path.exists("telemetry.txt"):
         return {"error": "Negative. No telemetry loaded. Upload rulebook first."}
-
-    # Send the saved text and the new question to the AI
-    answer = get_response(current_rulebook_text, question)
-
+    with open("telemetry.txt", "r", encoding="utf-8") as f:
+        saved_text = f.read()
+    answer = get_response(saved_text, question)
     return {"response": answer}
