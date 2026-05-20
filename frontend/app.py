@@ -2,10 +2,16 @@ import streamlit as st
 import requests
 import random
 import time
+import os
 
-st.set_page_config(page_title="F1 pitt wall AI", page_icon="🏎️", layout="centered")
+st.set_page_config(page_title="F1 pit wall AI", page_icon="🏎️", layout="centered")
 st.title("/// RACE STRATEGY AI")
-st.markdown("###Pit Wall Telemetry Dashboard")
+st.markdown("   Pit Wall Telemetry Dashboard")
+image_path = "frontend/f1_header.jpg"
+if os.path.exists(image_path):
+    st.image(image_path, use_container_width=True)
+else:
+    st.info("💡 Pit Wall Tip: Save a picture named 'f1_header.jpg' inside your 'frontend' folder to display it here!")
 BACKEND_URL = "http://127.0.0.1:8000"
 
 f1_facts = [
