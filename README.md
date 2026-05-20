@@ -1,3 +1,4 @@
+
 #  RACE STRATEGY AI: Pit Wall Telemetry Dashboard
 
 A full-stack Retrieval-Augmented Generation (RAG) application designed to ingest, process, and interrogate complex document structures—specifically the official FIA Formula 1 Sporting Regulations.
@@ -5,6 +6,15 @@ A full-stack Retrieval-Augmented Generation (RAG) application designed to ingest
 This project utilizes a dual-engine architecture, combining a localized REST API backend with an interactive Streamlit frontend to simulate a live F1 Pit Wall environment. The AI acts as a Chief Race Strategist, answering complex penalty and procedural questions strictly using the provided telemetry (document context).
 
 ---
+
+
+<p align="center">
+  <img src="assets/dashboard.jpeg" alt="Pit Wall Dashboard" width="900"/>
+</p>
+
+
+---
+
 
 #  Architecture & Tech Stack
 
